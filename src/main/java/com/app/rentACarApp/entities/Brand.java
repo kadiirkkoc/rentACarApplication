@@ -21,10 +21,12 @@ public class Brand {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "name")
     private String name;
 
+    @Column(name = "numberOfModel")
     private int numberOfModel;
 
-    @OneToMany(mappedBy = "brand")
+    @OneToMany(mappedBy = "brand" , cascade = CascadeType.ALL)
     private List<Model> models;
 }

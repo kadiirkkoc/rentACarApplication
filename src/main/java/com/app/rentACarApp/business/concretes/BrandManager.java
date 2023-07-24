@@ -2,9 +2,11 @@ package com.app.rentACarApp.business.concretes;
 
 import com.app.rentACarApp.business.abstracts.BrandService;
 import com.app.rentACarApp.dataAccess.BrandRepository;
+import com.app.rentACarApp.dtos.requests.CreateBrandRequest;
+import com.app.rentACarApp.dtos.requests.UpdateBrandRequest;
+import com.app.rentACarApp.dtos.responses.GetBrandByIdResponse;
 import com.app.rentACarApp.dtos.responses.GetBrandsResponse;
 import com.app.rentACarApp.entities.Brand;
-import com.app.rentACarApp.utilities.mappers.ModelMapperManager;
 import com.app.rentACarApp.utilities.mappers.ModelMapperService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,4 +29,32 @@ public class BrandManager implements BrandService {
 
         return brandsResponse;
     }
+
+    public GetBrandByIdResponse getById(Long id){
+        Brand brand = brandRepository.getById(id);
+        GetBrandByIdResponse brandById = this.modelMapperService.forResponse().map(brand,GetBrandByIdResponse.class);
+        return brandById;
+
+    }
+
+    @Override
+    public void add(CreateBrandRequest createBrandRequest) {
+        Brand brand = this.modelMapperService.forRequest().map(createBrandRequest,Brand.class);
+        brandRepository.save(brand);
+    }
+
+    @Override
+    public void update(UpdateBrandRequest updateBrandRequest) {
+        Brand brand = this.modelMapperService.forRequest().map(updateBrandRequest,Brand.class);
+        brandRepository.save(brand);
+    }
+
+    @Override
+    public void delete(Long id) {
+        brandRepository.deleteById(id);
+    }
+
+
+
+
 }

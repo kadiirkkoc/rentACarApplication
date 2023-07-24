@@ -14,7 +14,6 @@ public class GetBrandsResponse {
 
     private Long id;
     private String name;
-    private int numberOfModels;
     private List<Model> models;
 
 }

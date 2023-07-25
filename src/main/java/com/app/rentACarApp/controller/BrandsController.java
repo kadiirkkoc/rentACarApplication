@@ -4,7 +4,6 @@ package com.app.rentACarApp.controller;
 import com.app.rentACarApp.business.abstracts.BrandService;
 import com.app.rentACarApp.dtos.requests.CreateBrandRequest;
 import com.app.rentACarApp.dtos.requests.UpdateBrandRequest;
-import com.app.rentACarApp.dtos.responses.GetBrandByIdResponse;
 import com.app.rentACarApp.dtos.responses.GetBrandsResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,7 +24,7 @@ public class BrandsController {
     }
 
     @GetMapping("/{id}")
-    public GetBrandByIdResponse getById(@PathVariable Long id){
+    public GetBrandsResponse getById(@PathVariable Long id){
         return brandService.getById(id);
     }
     @PostMapping()

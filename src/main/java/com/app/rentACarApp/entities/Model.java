@@ -1,7 +1,6 @@
 package com.app.rentACarApp.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.List;
@@ -24,8 +23,6 @@ public class Model {
     private String name;
 
     private int numberOfCar;
-
-    private int year;
 
     @ManyToOne
     @JoinColumn(name = "brand_id" , referencedColumnName = "id")

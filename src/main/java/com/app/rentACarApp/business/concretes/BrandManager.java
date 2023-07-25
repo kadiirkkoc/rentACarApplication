@@ -2,13 +2,14 @@ package com.app.rentACarApp.business.concretes;
 
 import com.app.rentACarApp.business.abstracts.BrandService;
 import com.app.rentACarApp.dataAccess.BrandRepository;
+import com.app.rentACarApp.dataAccess.ModelRepository;
 import com.app.rentACarApp.dtos.requests.CreateBrandRequest;
 import com.app.rentACarApp.dtos.requests.UpdateBrandRequest;
-import com.app.rentACarApp.dtos.responses.GetBrandByIdResponse;
 import com.app.rentACarApp.dtos.responses.GetBrandsResponse;
 import com.app.rentACarApp.entities.Brand;
+import com.app.rentACarApp.entities.Model;
+import com.app.rentACarApp.utilities.exceptions.BusinessException;
 import com.app.rentACarApp.utilities.mappers.ModelMapperService;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,11 +17,17 @@ import java.util.stream.Collectors;
 
 
 @Service
-@AllArgsConstructor
 public class BrandManager implements BrandService {
 
     private final BrandRepository brandRepository;
     private final ModelMapperService modelMapperService;
+    private final ModelRepository modelRepository;
+
+    public BrandManager(BrandRepository brandRepository, ModelMapperService modelMapperService,ModelRepository modelRepository) {
+        this.brandRepository = brandRepository;
+        this.modelMapperService = modelMapperService;
+        this.modelRepository = modelRepository;
+    }
 
     @Override
     public List<GetBrandsResponse> getAll() {
@@ -29,10 +36,13 @@ public class BrandManager implements BrandService {
 
         return brandsResponse;
     }
-
-    public GetBrandByIdResponse getById(Long id){
+    @Override
+    public GetBrandsResponse getById(Long id){
         Brand brand = brandRepository.getById(id);
-        GetBrandByIdResponse brandById = this.modelMapperService.forResponse().map(brand,GetBrandByIdResponse.class);
+        if (!brandRepository.existsBrandById(id)){
+            throw new BusinessException("There is no brand with this id :" + id);
+        }
+        GetBrandsResponse brandById = this.modelMapperService.forResponse().map(brand,GetBrandsResponse.class);
         return brandById;
 
     }
@@ -51,10 +61,9 @@ public class BrandManager implements BrandService {
 
     @Override
     public void delete(Long id) {
-        brandRepository.deleteById(id);
+        List<Model> models = modelRepository.findAll();
+
+
     }
-
-
-
 
 }

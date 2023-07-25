@@ -9,4 +9,6 @@ import java.util.List;
 public interface CarRepository extends JpaRepository <Car,Long> {
 
     List<Model> findAllByModelId(Long id);
+
+    void deleteAllByModelId(Long id);
 }

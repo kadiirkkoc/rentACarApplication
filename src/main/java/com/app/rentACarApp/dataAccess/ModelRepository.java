@@ -8,4 +8,5 @@ import java.util.List;
 public interface ModelRepository extends JpaRepository<Model,Long> {
 
     List<Model> findAllByBrandId(Long id);
+    void deleteAllByBrandId(Long id);
 }

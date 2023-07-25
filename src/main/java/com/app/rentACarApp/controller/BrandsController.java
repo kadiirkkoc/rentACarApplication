@@ -5,6 +5,7 @@ import com.app.rentACarApp.business.abstracts.BrandService;
 import com.app.rentACarApp.dtos.requests.CreateBrandRequest;
 import com.app.rentACarApp.dtos.requests.UpdateBrandRequest;
 import com.app.rentACarApp.dtos.responses.GetBrandsResponse;
+import com.app.rentACarApp.dtos.responses.ResponseDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -29,9 +30,10 @@ public class BrandsController {
     }
     @PostMapping()
     @ResponseStatus(code = HttpStatus.CREATED)
-    public void add(@RequestBody CreateBrandRequest createBrandRequest){
-        brandService.add(createBrandRequest);
+    public ResponseDTO add(@RequestBody CreateBrandRequest createBrandRequest){
+        return brandService.add(createBrandRequest);
     }
+
 
     @PutMapping()
     public void update(@RequestBody UpdateBrandRequest updateBrandRequest){

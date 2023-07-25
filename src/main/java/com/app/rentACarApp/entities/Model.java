@@ -1,6 +1,8 @@
 package com.app.rentACarApp.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.List;
@@ -24,10 +26,12 @@ public class Model {
 
     private int numberOfCar;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "brand_id" , referencedColumnName = "id")
     private Brand brand;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "model" , cascade = CascadeType.ALL)
     private List<Car> cars;
 }

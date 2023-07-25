@@ -1,5 +1,6 @@
 package com.app.rentACarApp.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,6 +28,7 @@ public class    Car {
     @Column(name = "state")
     private int state; // 1-avaliable , 2-rented , 3-maintanance
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "model_id" , referencedColumnName = "id")
     private Model model;

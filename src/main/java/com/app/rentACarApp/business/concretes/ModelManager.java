@@ -61,10 +61,11 @@ public class ModelManager implements ModelService {
 
     @Override
     public void delete(Long id) {
-        List<Car> cars = carRepository.findAll();
-        for (Car car : cars){
-            carService.delete(car.getId());
-        }
-        modelRepository.deleteById(id);
+//        List<Car> cars = carRepository.findAllByModelId(id);
+//        for (Car car : cars){
+//            carService.delete(car.getId());
+//        }
+//        carRepository.deleteAllByModelId(id);
+//        modelRepository.deleteById(id);
     }
 }

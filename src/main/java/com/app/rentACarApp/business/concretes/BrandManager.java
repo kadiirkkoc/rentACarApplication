@@ -12,15 +12,14 @@ import com.app.rentACarApp.entities.Brand;
 import com.app.rentACarApp.entities.Car;
 import com.app.rentACarApp.entities.Model;
 import com.app.rentACarApp.utilities.exceptions.BusinessException;
-import com.app.rentACarApp.utilities.exceptions.ExistSameNameExceptions;
+import com.app.rentACarApp.utilities.exceptions.ExistingNameExceptions;
 import com.app.rentACarApp.utilities.mappers.ModelMapperService;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
 @Service
 public class BrandManager implements BrandService {
 
@@ -29,6 +28,15 @@ public class BrandManager implements BrandService {
     private final ModelRepository modelRepository;
     private final CarService carService;
     private ResponseDTO responseDTO;
+
+    @Autowired
+    public BrandManager(BrandRepository brandRepository, ModelMapperService modelMapperService, ModelRepository modelRepository, CarService carService, ResponseDTO responseDTO) {
+        this.brandRepository = brandRepository;
+        this.modelMapperService = modelMapperService;
+        this.modelRepository = modelRepository;
+        this.carService = carService;
+        this.responseDTO = responseDTO;
+    }
 
     @Override
     public List<GetBrandsResponse> getAll() {
@@ -53,7 +61,7 @@ public class BrandManager implements BrandService {
             List<Brand>brands = brandRepository.findAll();
             for (Brand brand : brands){
                 if (brand.getName().equals(createBrandRequest.getName())){
-                    throw new ExistSameNameExceptions("There is another brand with this name! " + brand.getName());
+                    throw new ExistingNameExceptions("There is another brand with this name! " + brand.getName());
                 }
             }
             Brand brand = this.modelMapperService.forRequest().map(createBrandRequest,Brand.class);

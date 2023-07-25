@@ -6,14 +6,12 @@ import com.app.rentACarApp.dataAccess.CarRepository;
 import com.app.rentACarApp.dataAccess.ModelRepository;
 import com.app.rentACarApp.dtos.requests.CreateModelRequest;
 import com.app.rentACarApp.dtos.requests.UpdateModelRequest;
-import com.app.rentACarApp.dtos.responses.GetCarsResponse;
 import com.app.rentACarApp.dtos.responses.GetModelsResponse;
-import com.app.rentACarApp.entities.Car;
+import com.app.rentACarApp.dtos.responses.ResponseDTO;
 import com.app.rentACarApp.entities.Model;
 import com.app.rentACarApp.utilities.mappers.ModelMapperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,7 +34,7 @@ public class ModelManager implements ModelService {
     @Override
     public List<GetModelsResponse> getAll() {
         List<Model> models = modelRepository.findAll();
-        List<GetModelsResponse> modelsResponses = models.stream().map(model -> modelMapperService.forResponse().map(models,GetModelsResponse.class)).collect(Collectors.toList());
+        List< GetModelsResponse> modelsResponses = models.stream().map(model -> modelMapperService.forResponse().map(models,GetModelsResponse.class)).collect(Collectors.toList());
         return modelsResponses;
     }
 
@@ -48,9 +46,10 @@ public class ModelManager implements ModelService {
     }
 
     @Override
-    public void add(CreateModelRequest createModelRequest) {
+    public ResponseDTO add(CreateModelRequest createModelRequest) {
         Model model = modelMapperService.forRequest().map(createModelRequest,Model.class);
         modelRepository.save(model);
+        return null;
     }
 
     @Override

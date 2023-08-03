@@ -19,7 +19,7 @@ public class BrandsController {
 
     private final BrandService brandService;
 
-    @GetMapping()
+    @GetMapping("/getall")
     public List<GetBrandsResponse> getAll(){
        return brandService.getAll();
     }
@@ -28,19 +28,19 @@ public class BrandsController {
     public GetBrandsResponse getById(@PathVariable Long id){
         return brandService.getById(id);
     }
-    @PostMapping()
+    @PostMapping("/add")
     @ResponseStatus(code = HttpStatus.CREATED)
     public ResponseDTO add(@RequestBody CreateBrandRequest createBrandRequest){
         return brandService.add(createBrandRequest);
     }
 
 
-    @PutMapping()
+    @PutMapping("/update")
     public void update(@RequestBody UpdateBrandRequest updateBrandRequest){
         brandService.update(updateBrandRequest);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/delete")
     public void delete(@PathVariable Long id){
         this.brandService.delete(id);
     }

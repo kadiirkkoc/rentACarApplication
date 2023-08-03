@@ -25,8 +25,8 @@ public class    Car {
     @Column(name = "modelYear")
     private int modelYear;
 
-    @Column(name = "state")
-    private int state; // 1-avaliable , 2-rented , 3-maintanance
+    @Column(name = "state", nullable = true)
+    private Boolean state;
 
     @JsonBackReference
     @ManyToOne

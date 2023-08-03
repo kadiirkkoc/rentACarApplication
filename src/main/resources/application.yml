@@ -1,0 +1,29 @@
+spring:
+    main:
+        allow-bean-definition-overriding: true
+    jpa:
+        properties:
+            hibernate:
+                jdbc:
+                    time_zone: UTC
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+    datasource:
+        url: jdbc:postgresql://localhost:5432/RentACarApplication
+        driverClassName: org.postgresql.Driver
+        username: postgres
+        password: Kkoc0312
+    security:
+        oauth2:
+            resourceserver:
+                jwt:
+                    issuer-uri: http://localhost:8081/realms/kadir-car-rental-app
+                    jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+
+server:
+    port: 8081
+
+jwt:
+    auth:
+        converter:
+            resource-id: kadir-car-rental-app
+            principal-attribute: preferred_username

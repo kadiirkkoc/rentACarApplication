@@ -24,10 +24,10 @@ public class WebSecurity {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.
                 authorizeHttpRequests(auth -> {
-            auth.requestMatchers(HttpMethod.GET,"/api/brands/add").permitAll();
-            auth.requestMatchers(HttpMethod.GET,"/api/brands/update").hasRole(ADMIN);
-            auth.requestMatchers(HttpMethod.GET,"/api/models/getall").hasRole(USER);
-            auth.requestMatchers(HttpMethod.GET,"/api/brands/getall").hasAnyRole(ADMIN,USER);
+            auth.requestMatchers(HttpMethod.POST,"/api/brands/add").hasRole(ADMIN);
+            auth.requestMatchers(HttpMethod.PUT,"/api/brands/update").hasRole(ADMIN);
+            auth.requestMatchers(HttpMethod.GET,"/api/brands/getall").hasRole(USER);
+            auth.requestMatchers(HttpMethod.GET,"/api/brands").hasAnyRole(ADMIN,USER);
             auth.anyRequest().authenticated();
         });
 
@@ -38,4 +38,5 @@ public class WebSecurity {
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }
+
 }

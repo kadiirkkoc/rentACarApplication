@@ -22,7 +22,7 @@ spring:
 
     jwt:
       auth:
-        resource-id: kadir-car-rental-app
+        resource-id: car-rental-app
         principle-attribute: preferred_username
 
 server:

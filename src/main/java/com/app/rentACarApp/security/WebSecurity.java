@@ -26,8 +26,8 @@ public class WebSecurity {
                 authorizeHttpRequests(auth -> {
             auth.requestMatchers(HttpMethod.GET,"/api/brands/add").permitAll();
             auth.requestMatchers(HttpMethod.GET,"/api/brands/update").hasRole(ADMIN);
-            auth.requestMatchers(HttpMethod.GET,"").hasRole(USER);
-            auth.requestMatchers(HttpMethod.GET,"").hasAnyRole(ADMIN,USER);
+            auth.requestMatchers(HttpMethod.GET,"/api/models/getall").hasRole(USER);
+            auth.requestMatchers(HttpMethod.GET,"/api/brands/getall").hasAnyRole(ADMIN,USER);
             auth.anyRequest().authenticated();
         });
 

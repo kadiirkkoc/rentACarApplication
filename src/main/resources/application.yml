@@ -16,8 +16,10 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8081/realms/kadir-car-rental-app
+          issuer-uri: http://localhost:8080/realms/kadir-car-rental-app
           jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+#          http://localhost:8080/realms/kadir-car-rental-app
+
     jwt:
       auth:
         resource-id: kadir-car-rental-app

@@ -18,7 +18,7 @@ public class ModelsController {
 
     private final ModelService modelService;
 
-    @GetMapping()
+    @GetMapping("getall")
     public List<GetModelsResponse> getAll(){
         return modelService.getAll();
     }

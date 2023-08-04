@@ -2,6 +2,12 @@ package com.app.rentACarApp.security;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,24 +26,30 @@ import java.util.stream.Stream;
 
 @Component
 @AllArgsConstructor
+@NoArgsConstructor
 public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationToken> {
 
-    private final JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();;
-    private final JwtAuthConverterProperties jwtAuthConverterProperties;
+    private JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
+
+    @Value("${principle-attribute}")
+    private String principleAttribute;
+    @Value("${resource-id}")
+    private String resourceId;
 
     @Override
-    public AbstractAuthenticationToken convert(Jwt jwt) {
+    public AbstractAuthenticationToken convert(@NonNull Jwt jwt) {
         Collection<GrantedAuthority> authorities = Stream.concat(
                 jwtGrantedAuthoritiesConverter.convert(jwt).stream(),
-                extractResourceRoles(jwt).stream()).collect(Collectors.toList());
+                extractResourceRoles(jwt).stream())
+                .collect(Collectors.toList());
 
-        return new JwtAuthenticationToken(jwt,authorities,getPrincipalClaimName(jwt));
+        return new JwtAuthenticationToken(jwt,authorities,getPrincipleClaimName(jwt));
     }
 
-    private String getPrincipalClaimName(Jwt jwt){
+    private String getPrincipleClaimName(Jwt jwt){
         String claimName = JwtClaimNames.SUB;
-        if (jwtAuthConverterProperties.getPrincipalAttribute() != null){
-            claimName = jwtAuthConverterProperties.getPrincipalAttribute();
+        if (principleAttribute != null){
+            claimName = principleAttribute;
         }
         return jwt.getClaim(claimName);
     }
@@ -48,7 +60,7 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
         Collection<String> resourceRoles;
 
         if (resourceAccess == null
-            || (resource = (Map<String,Object>) resourceAccess.get(jwtAuthConverterProperties.getResourceId())) == null
+            || (resource = (Map<String,Object>) resourceAccess.get(resourceId)) == null
             || (resourceRoles = (Collection<String>) resource.get("roles")) == null){
             return Set.of();
         }

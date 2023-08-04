@@ -5,10 +5,9 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SecurityConfig {
-
     @Bean
-    public JwtAuthConverterProperties jwtAuthConverterProperties(){
-        return new JwtAuthConverterProperties();
+    public JwtAuthConverter jwtAuthConverter(){
+        return new JwtAuthConverter();
     }
 
 }
